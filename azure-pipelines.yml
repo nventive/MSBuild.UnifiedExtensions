@@ -1,0 +1,27 @@
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+- name: PackageOutputPath
+  value: $(Build.ArtifactStagingDirectory)
+
+steps:
+- task: GitVersion@5
+
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: 5.1.0
+
+- task: NuGetCommand@2
+  inputs:
+    command: restore
+    restoreSolution: src/Nimue.sln
+
+- task: MSBuild@1
+  inputs:
+    msbuildLocationMethod: version
+    msbuildVersion: latest
+    configuration: Release
+    platform: Any CPU
+
+- task: PublishBuildArtifacts@1
