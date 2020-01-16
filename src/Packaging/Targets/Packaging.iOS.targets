@@ -1,0 +1,15 @@
+﻿<Project>
+	<Target Name="_CopyApplicationPackagesForPublishing"
+			AfterTargets="Build"
+			Condition="'$(PackageOutputPath)'!='' and '$(BuildIpa)'=='True' and Exists('$(IpaPackagePath)')">
+		<Copy SourceFiles="$(IpaPackagePath)"
+			  DestinationFolder="$(PackageOutputPath)\" />
+
+		<ItemGroup>
+			<_dSYMFiles Include="$(AppBundleDir).dSYM\**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_dSYMFiles)"
+			  DestinationFolder="$(PackageOutputPath)\$(_AppBundleName).dSYM\" />
+	</Target>
+</Project>

@@ -1,36 +1,19 @@
-# Open Source Project Template
+# Nimue
 
-This repository contains a template to seed a repository for an Open Source
-project.
+MSBuild Unified Extensions
 
-## How to use this template
-
-1. Check out this repository
-2. Delete the `.git` folder
-3. Git init this repository and start working on your project!
-4. Prior to submitting your request for publication, make sure to review the
-   [Open Source guidelines for publications](https://nventive.visualstudio.com/Internal/_wiki/wikis/Internal_wiki?wikiVersion=GBwikiMaster&pagePath=%2FOpen%20Source%2FPublishing&pageId=7120).
-
-The following is the template for the final README.md file:
-
----
-
-# Project Title
-
-{Project tag line}
-
-{Small description of the purpose of the project}
+A set of MSBuild extensions to ease cross-platform development.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 ## Getting Started
 
-{Instructions to quickly get started using the project: pre-requisites, packages
-to install, sample code, etc.}
+Simply install the packages in your solution. You can find specific documentation for each tool:
+- [Packaging](/Packaging/Readme.md)
 
 ## Features
 
-{More details/listing of features of the project}
+- Manage output paths in a single, unified way accross Xamarin iOS, Xamarin Android, UAP and Web Assembly.
 
 ## Changelog
 

@@ -1,0 +1,12 @@
+﻿<Project>
+	<Target Name="_CopyApplicationPackagesForPublishing"
+			AfterTargets="Build"
+			Condition="'$(PackageOutputPath)'!='' and '$(WasmHead)'=='true'">
+		<ItemGroup>
+			<_WasmFiles Include="$(OutputPath)dist\**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_WasmFiles)"
+			  DestinationFiles="@(_WasmFiles->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+</Project>

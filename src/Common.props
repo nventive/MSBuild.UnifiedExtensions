@@ -1,0 +1,31 @@
+<Project>
+	<PropertyGroup>
+		<TargetFrameworks>xamarinios10;monoandroid90;monoandroid10.0;uap10.0.17763;netstandard2.0</TargetFrameworks>
+		<Authors>nventive</Authors>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<Copyright>Copyright ©2020 nventive inc.</Copyright>
+		<Description>A set of MSBuild targets designed to ease cross-platform development</Description>
+		<tags>msbuild cross-platform</tags>
+		<ProjectUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</ProjectUrl>
+		<RepositoryUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</RepositoryUrl>
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<OutputType>module</OutputType>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)..\icon.png"
+			  Pack="true"
+			  PackagePath="$(PackageIcon)" />
+
+		<!-- This file indicates an empty directory. For projects that don't generate dlls, NuGet advises to create such a file instead. -->
+		<None Include="$(MSbuildThisFileDirectory)_._"
+			  Pack="true"
+			  PackagePath="lib/monoandroid90/;lib/monoandroid10.0/;lib/xamarinios10/" />
+	</ItemGroup>
+</Project>

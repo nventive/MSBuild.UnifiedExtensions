@@ -1,0 +1,12 @@
+﻿<Project>
+	<Target Name="_CopyApplicationPackagesForPublishing"
+		    AfterTargets="Build"
+			Condition="'$(PackageOutputPath)'!='' and '$(AppxBundle)'=='Always' and Exists('$(AppxBundleOutput)')">
+		<ItemGroup>
+			<_UwpFiles Include="$(AppxPackageTestDir)\**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_UwpFiles)"
+		      DestinationFiles="@(_UwpFiles->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+</Project>

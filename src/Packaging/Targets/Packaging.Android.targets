@@ -1,0 +1,8 @@
+﻿<Project>
+	<Target Name="_CopyApplicationPackagesForPublishing"
+			AfterTargets="SignAndroidPackage"
+			Condition="'$(PackageOutputPath)'!='' and '$(AndroidApplication)'=='true'">
+		<Copy SourceFiles="@(ApkAbiFilesAligned)"
+			  DestinationFiles="@(ApkAbiFilesAligned->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+</Project>
