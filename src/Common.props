@@ -15,7 +15,7 @@
 		<OutputType>module</OutputType>
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
+		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -25,3 +25,5 @@ steps:
     platform: Any CPU
 
 - task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: Packages 
