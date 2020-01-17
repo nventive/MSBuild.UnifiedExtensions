@@ -64,6 +64,6 @@ stages:
     - task: NuGetCommand@2
       inputs:
         command: 'push'
-        packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg'
+        packagesToPush: '$(System.ArtifactStagingDirectory)/$(ArtifactName)/*.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: 'nventive'
