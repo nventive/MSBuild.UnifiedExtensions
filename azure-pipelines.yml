@@ -46,7 +46,7 @@ stages:
 - stage: Release
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   jobs:
-  - job: AppCenter
+  - job: NuGet_Internal
   
     steps:
     - checkout: none
@@ -63,6 +63,6 @@ stages:
     
     - task: NuGetCommand@2
       inputs:
-        configuration: push
+        command: push
         packagesToPush: '*.nupkg'
         publishVstsFeed: nventive
