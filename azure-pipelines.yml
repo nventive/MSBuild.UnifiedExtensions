@@ -1,29 +1,67 @@
-pool:
-  vmImage: 'windows-latest'
+trigger:
+  branches:
+    include:
+    - master
 
 variables:
-- name: PackageOutputPath
-  value: $(Build.ArtifactStagingDirectory)
+  - name: ArtifactName
+    value: Packages
 
-steps:
-- task: GitVersion@5
+stages:
+- stage: Build
+  jobs:
+  - job: Windows
 
-- task: NuGetToolInstaller@1
-  inputs:
-    versionSpec: 5.1.0
+    pool:
+      vmImage: 'windows-latest'
 
-- task: NuGetCommand@2
-  inputs:
-    command: restore
-    restoreSolution: src/Nimue.sln
+    variables:
+    - name: PackageOutputPath
+      value: $(Build.ArtifactStagingDirectory)
 
-- task: MSBuild@1
-  inputs:
-    msbuildLocationMethod: version
-    msbuildVersion: latest
-    configuration: Release
-    platform: Any CPU
+    steps:
+    - task: GitVersion@5
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    ArtifactName: Packages 
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: 5.1.0
+
+    - task: NuGetCommand@2
+      inputs:
+        command: restore
+        restoreSolution: src/Nimue.sln
+
+    - task: MSBuild@1
+      inputs:
+        msbuildLocationMethod: version
+        msbuildVersion: latest
+        configuration: Release
+        platform: Any CPU
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        ArtifactName: $(ArtifactName) 
+
+- stage: Release
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  jobs:
+  - job: AppCenter
+  
+    steps:
+    - checkout: none
+
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: current
+        downloadType: single
+        artifactName: $(ArtifactName)
+
+    - task: NuGetToolInstaller@1
+      inputs:
+        versionSpec: 5.4.0
+    
+    - task: NuGetCommand@2
+      inputs:
+        configuration: push
+        packagesToPush: '*.nupkg'
+        publishVstsFeed: nventive
