@@ -37,6 +37,7 @@ stages:
         msbuildVersion: latest
         configuration: Release
         platform: Any CPU
+        msbuildArguments: /p:PackageVersion=$(GitVersion.SemVer)
 
     - task: PublishBuildArtifacts@1
       inputs:
