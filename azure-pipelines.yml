@@ -63,6 +63,7 @@ stages:
     
     - task: NuGetCommand@2
       inputs:
-        command: push
-        packagesToPush: '*.nupkg'
-        publishVstsFeed: nventive
+        command: 'push'
+        packagesToPush: '**/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: 'nventive'
