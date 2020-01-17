@@ -64,6 +64,6 @@ stages:
     - task: NuGetCommand@2
       inputs:
         command: 'push'
-        packagesToPush: '**/*.nupkg'
+        packagesToPush: '$(System.DefaultWorkingDirectory)/**/*.nupkg'
         nuGetFeedType: 'internal'
         publishVstsFeed: 'nventive'
