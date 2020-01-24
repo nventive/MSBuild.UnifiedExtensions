@@ -1,11 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+	<Import Project="..\Common.props" />
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<PackageId>nventive.Nimue.Versioning</PackageId>
+		<Description>A set of MSBuild targets to help versioning of cross-targeted applications</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="build\" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="Targets\nventive.Nimue.Versioning.targets" Pack="true" PackagePath="build/monoandroid90/;build/monoandroid10.0/;build/xamarinios10/;build/uap10.0.17763/;build/netstandard2.0/" />
 
+		<None Include="Targets\Versioning.Android.targets" Pack="true" PackagePath="build/monoandroid90/Versioning.targets;build/monoandroid10.0/Versioning.targets" />
+		<None Include="Targets\Versioning.iOS.targets" Pack="true" PackagePath="build/xamarinios10/Versioning.targets" />
+		<None Include="Targets\Versioning.UAP.targets" Pack="true" PackagePath="build/uap10.0.17763/Versioning.targets" />
+		<None Include="Targets\Versioning.WASM.targets" Pack="true" PackagePath="build/netstandard2.0/Versioning.targets" />
+	</ItemGroup>
 </Project>

@@ -1,0 +1,72 @@
+<Project>
+	<Target Name="SetPackageVersion"
+			BeforeTargets="PrepareForBuild"
+			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(GITVERSION_MAJORMINORPATCH)'!=''">
+		<!-- XML namespaces -->
+		<PropertyGroup>
+			<_AndroidNamespace>
+				<Namespace Prefix="android" Uri="http://schemas.android.com/apk/res/android" />
+			</_AndroidNamespace>
+			<_WindowsNamespace>
+				<Namespace Prefix="x" Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10" />
+			</_WindowsNamespace>
+		</PropertyGroup>
+
+		<!-- Target files -->
+		<PropertyGroup>
+			<!-- <_AssemblyInfoPath>.\Properties\AssemblyInfo.cs</_AssemblyInfoPath> -->
+			<_WasmVersionFile>.\Version.txt</_WasmVersionFile>
+		</PropertyGroup>
+
+		<PropertyGroup>
+			<PackageVersion>$(GITVERSION_MAJORMINORPATCH)</PackageVersion>
+			<PackageInformationalVersion>$(GITVERSION_INFORMATIONALVERSION)</PackageInformationalVersion>
+			<PackageBuildNumber>1</PackageBuildNumber>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<_Major Include="$(PackageVersion.Split('.')[0])" />
+			<_Minor Include="$(PackageVersion.Split('.')[1])" />
+			<_Revision Include="$(PackageVersion.Split('.')[2])" />
+		</ItemGroup>
+
+		<Exec Command="git rev-list --count HEAD"
+			  ConsoleToMSBuild="true">
+			<Output TaskParameter="ConsoleOutput"
+					PropertyName="PackageBuildNumber" />
+		</Exec>
+
+		<!-- Project-specific values -->
+		<PropertyGroup>
+			<PackageName>Uno Azure DevOps</PackageName>
+			<PackageCompanyName>nventive</PackageCompanyName>
+			<!-- Increasing the build number since the commit count was reset when the code went public -->
+			<PackageBuildNumber>$([MSBuild]::Add($(PackageBuildNumber), 305))</PackageBuildNumber>
+		</PropertyGroup>
+
+		<PropertyGroup>
+			<_VersionWithBuildNumber>@(_Major).@(_Minor).$(PackageBuildNumber).@(_Revision)</_VersionWithBuildNumber>
+		</PropertyGroup>
+
+		<Message Text="Package version: $(PackageVersion)" />
+		<Message Text="Package informational version: $(PackageInformationalVersion)" />
+		<Message Text="Package build number: $(PackageBuildNumber)" />
+		<Message Text ="Package version with build number: $(_VersionWithBuildNumber)" />
+
+		<!--<AssemblyInfo CodeLanguage="CS"
+				  Condition="Exists('$(_AssemblyInfoPath)')"
+				  OutputFile="$(_AssemblyInfoPath)"
+				  AssemblyProduct="$(PackageName)"
+				  AssemblyCompany="$(PackageCompanyName)"
+				  AssemblyCopyright="Copyright (c) $(PackageCompanyName) $([System.DateTime]::Now.Year)"
+				  AssemblyVersion="$(PackageVersion)"
+				  AssemblyFileVersion="$(PackageBuildNumber)"
+				  AssemblyInformationalVersion="$(PackageInformationalVersion)" />-->
+
+		<!-- WASM -->
+		<WriteLinesToFile Condition="'$(WasmHead)'=='true' and Exists('$(_WasmVersionFile)')"
+						  File="$(_WasmVersionFile)"
+						  Lines="$(_VersionWithBuildNumber)"
+						  Overwrite="true" />
+	</Target>
+</Project>
