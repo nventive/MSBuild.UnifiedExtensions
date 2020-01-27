@@ -12,7 +12,7 @@
 
 		<!-- Multi-target targets -->
 		<None Include="Targets\nventive.Nimue.TargetFrameworks.Filtering.targets" Pack="true" PackagePath="buildMultiTargeting/" />
-		<None Include="Targets\TargetFrameworks.Filtering.MultiTargeting.targets" Pack="true" PackagePath="buildMultiTargeting/FrameworkFiltering.targets" />
+		<None Include="Targets\TargetFrameworks.Filtering.MultiTargeting.targets" Pack="true" PackagePath="buildMultiTargeting/TargetFrameworks.Filtering.targets" />
 
 		<!-- Single-target targets-->
 		<None Include="Targets\nventive.Nimue.TargetFrameworks.Filtering.targets" Pack="true" PackagePath="build/" />
