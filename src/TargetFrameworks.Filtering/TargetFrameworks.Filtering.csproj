@@ -1,0 +1,22 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+	<Import Project="..\Common.props" />
+
+	<PropertyGroup>
+		<PackageId>nventive.Nimue.TargetFrameworks.Filtering</PackageId>
+		<Description>A set of MSBuild targets to help with the build process of cross-targetted applications</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="Props\nventive.Nimue.TargetFrameworks.Filtering.props" Pack="true" PackagePath="buildMultiTargeting/" />
+		<None Include="Props\TargetFrameworks.Filtering.props" Pack="true" PackagePath="buildMultiTargeting/" />
+
+		<!-- Multi-target targets -->
+		<None Include="Targets\nventive.Nimue.TargetFrameworks.Filtering.targets" Pack="true" PackagePath="buildMultiTargeting/" />
+		<None Include="Targets\TargetFrameworks.Filtering.MultiTargeting.targets" Pack="true" PackagePath="buildMultiTargeting/FrameworkFiltering.targets" />
+
+		<!-- Single-target targets-->
+		<None Include="Targets\nventive.Nimue.TargetFrameworks.Filtering.targets" Pack="true" PackagePath="build/" />
+		<None Include="Targets\TargetFrameworks.Filtering.targets" Pack="true" PackagePath="build/" />
+	</ItemGroup>
+
+</Project>

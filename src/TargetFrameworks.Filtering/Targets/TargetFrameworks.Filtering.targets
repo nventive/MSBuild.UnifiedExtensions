@@ -1,0 +1,30 @@
+﻿<Project>
+	<!-- Given a target framework, this target tries to resolve it and returns a value indicating whether it was found -->
+	<Target Name="_CheckFrameworkPresence"
+			Returns="@(_Result)">
+		<!-- Try to find the assembly used for the current TargetFramework-->
+		<GetReferenceAssemblyPaths TargetFrameworkMoniker="$(TargetFrameworkMoniker)"
+								   RootPath="$(TargetFrameworkRootPath)"
+								   TargetFrameworkFallbackSearchPaths="$(TargetFrameworkFallbackSearchPaths)"
+								   BypassFrameworkInstallChecks="$(BypassFrameworkInstallChecks)"
+								   ContinueOnError="True"
+								   Condition="'$(DisableStandardFrameworkResolution)' != 'true'">
+			<Output TaskParameter="TargetFrameworkMonikerDisplayName" PropertyName="_DisplayName" />
+		</GetReferenceAssemblyPaths>
+
+		<PropertyGroup>
+			<_Found>true</_Found>
+			<!-- For some target frameworks (like .Net Standard), the assemblies are resolved differently - assuming they exist -->
+			<_DisplayName Condition="'$(DisableStandardFrameworkResolution)' == 'true' and '$(_DisplayName)' == ''">$(TargetFrameworkMoniker)</_DisplayName>
+			<!-- GetReferenceAssemblyPaths returns an empty TargetFrameworkMonikerDisplayName if no assemblies are found -->
+			<_Found Condition="'$(_DisplayName)' == ''">false</_Found>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<_Result Include="$(TargetFramework)">
+				<Found>$(_Found)</Found>
+				<DisplayName>$(_DisplayName)</DisplayName>
+			</_Result>
+		</ItemGroup>
+	</Target>
+</Project>
