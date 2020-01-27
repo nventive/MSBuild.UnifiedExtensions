@@ -8,19 +8,13 @@
 
 	<ItemGroup>
 		<None Include="Props\nventive.Nimue.Packaging.props" Pack="true" PackagePath="build/xamarinios10/;build/uap10.0.17763/" />
-
 		<None Include="Props\Packaging.iOS.props" Pack="true" PackagePath="build/xamarinios10/Packaging.props" />
-
 		<None Include="Props\Packaging.UAP.props" Pack="true" PackagePath="build/uap10.0.17763/Packaging.props" />
 
 		<None Include="Targets\nventive.Nimue.Packaging.targets" Pack="true" PackagePath="build/monoandroid90/;build/monoandroid10.0/;build/xamarinios10/;build/uap10.0.17763/;build/netstandard2.0/" />
-
 		<None Include="Targets\Packaging.Android.targets" Pack="true" PackagePath="build/monoandroid90/Packaging.targets;build/monoandroid10.0/Packaging.targets" />
-
 		<None Include="Targets\Packaging.iOS.targets" Pack="true" PackagePath="build/xamarinios10/Packaging.targets" />
-
 		<None Include="Targets\Packaging.UAP.targets" Pack="true" PackagePath="build/uap10.0.17763/Packaging.targets" />
-
 		<None Include="Targets\Packaging.WASM.targets" Pack="true" PackagePath="build/netstandard2.0/Packaging.targets" />
 	</ItemGroup>
 </Project>

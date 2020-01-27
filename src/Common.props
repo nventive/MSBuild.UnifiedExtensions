@@ -13,6 +13,7 @@
 
 	<PropertyGroup>
 		<OutputType>module</OutputType>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
@@ -22,10 +23,5 @@
 		<None Include="$(MSBuildThisFileDirectory)..\icon.png"
 			  Pack="true"
 			  PackagePath="$(PackageIcon)" />
-
-		<!-- This file indicates an empty directory. For projects that don't generate dlls, NuGet advises to create such a file instead. -->
-		<None Include="$(MSbuildThisFileDirectory)_._"
-			  Pack="true"
-			  PackagePath="lib/monoandroid90/;lib/monoandroid10.0/;lib/xamarinios10/" />
 	</ItemGroup>
 </Project>

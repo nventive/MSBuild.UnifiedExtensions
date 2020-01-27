@@ -1,0 +1,39 @@
+﻿<Project>
+	<!--
+		This target filters out unknown target frameworks from the build.
+		To be triggered, the MSBuild variable SkipUnknownFrameworks must be set to True
+	-->
+	<Target Name="_FilterTargetFrameworks"
+			BeforeTargets="_ComputeTargetFrameworkItems"
+			Condition="'$(SkipUnknownFrameworks)' == 'true' and '$(TargetFrameworks)' != '' and '$(BuildingInsideVisualStudio)' != 'true'">
+		<ItemGroup>
+			<_FrameworksToFilter Include="$(TargetFrameworks)" />
+		</ItemGroup>
+
+		<!-- Check if each target framework is found on the machine-->
+		<MSBuild Projects="$(MSBuildProjectFile)"
+				 Targets="_CheckFrameworkPresence"
+				 Properties="TargetFramework=%(_FrameworksToFilter.Identity)">
+			<Output ItemName="_Frameworks" TaskParameter="TargetOutputs" />
+		</MSBuild>
+
+		<Message Condition="%(Found) == 'true'"
+				 Text="%(_Frameworks.Identity) found on the machine as %(_Frameworks.DisplayName)" />
+
+		<Warning Condition="%(Found) != 'true'"
+				 Text="%(_Frameworks.Identity) not found on the machine; will be skipped" />
+
+		<!-- Filter out the frameworks found and setting TargetFrameworks with the correct ones-->
+		<ItemGroup>
+			<_FrameworksFound Include="@(_Frameworks)"
+							  Condition="'%(Found)' == 'true'" />
+		</ItemGroup>
+		<PropertyGroup>
+			<TargetFrameworks>@(_FrameworksFound)</TargetFrameworks>
+		</PropertyGroup>
+
+		<!-- If this target filters out all the target frameworks, make the build fail -->
+		<Error Condition="$(TargetFrameworks) == ''"
+			   Text="None of the TargetFrameworks specified were found. The build environment is missing the necessary tooling." />
+	</Target>
+</Project>

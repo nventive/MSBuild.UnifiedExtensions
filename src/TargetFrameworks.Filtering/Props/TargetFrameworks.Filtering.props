@@ -1,0 +1,6 @@
+﻿<Project>
+	<PropertyGroup Condition="'$(SkipUnknownFrameworks)' == 'true'">
+		<!-- This ensures the build doesn't fail because of "SDK Missing" errors -->
+		<_SdkIgnoreMissingLanguageTargetsError>true</_SdkIgnoreMissingLanguageTargetsError>
+	</PropertyGroup>
+</Project>
