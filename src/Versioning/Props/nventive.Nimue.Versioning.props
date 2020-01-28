@@ -1,0 +1,6 @@
+﻿<Project>
+	<PropertyGroup>
+		<!-- Support for GitVersion variables-->
+		<ApplicationVersion>$([MSBuild]::ValueOrDefault('$(ApplicationVersion)', '$(GITVERSION_MAJORMINORPATCH)'))</ApplicationVersion>
+	</PropertyGroup>
+</Project>

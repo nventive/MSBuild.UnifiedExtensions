@@ -7,6 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="Props\nventive.Nimue.Versioning.props" Pack="true" PackagePath="build/monoandroid90/;build/monoandroid10.0/;build/xamarinios10/;build/uap10.0.17763/;build/netstandard2.0/" />
+
 		<None Include="Targets\nventive.Nimue.Versioning.targets" Pack="true" PackagePath="build/monoandroid90/;build/monoandroid10.0/;build/xamarinios10/;build/uap10.0.17763/;build/netstandard2.0/" />
 
 		<None Include="Targets\Versioning.Android.targets" Pack="true" PackagePath="build/monoandroid90/Versioning.targets;build/monoandroid10.0/Versioning.targets" />

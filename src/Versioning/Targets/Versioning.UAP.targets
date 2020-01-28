@@ -1,75 +1,28 @@
 <Project>
-	<Target Name="SetPackageVersion"
-			BeforeTargets="PrepareForBuild"
-			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(GITVERSION_MAJORMINORPATCH)'!=''">
-		<!-- XML namespaces -->
+	<Target Name="_SetApplicationVersion"
+			BeforeTargets="BeforeBuild"
+			DependsOnTargets="_CalculateApplicationVersion"
+			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(ApplicationVersion)'!=''">
 		<PropertyGroup>
-			<_AndroidNamespace>
-				<Namespace Prefix="android" Uri="http://schemas.android.com/apk/res/android" />
-			</_AndroidNamespace>
-			<_WindowsNamespace>
+			<!-- AppxManifest is the item used in the csproj to indicate where the manifest is located -->
+			<_ApplicationManifestPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory),%(AppxManifest.Identity)))</_ApplicationManifestPath>
+		</PropertyGroup>
+
+		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
+				 Text="No application manifest found for $(MSBuildProjectFile)" />
+
+		<PropertyGroup>
+			<_Namespaces>
 				<Namespace Prefix="x" Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10" />
-			</_WindowsNamespace>
+			</_Namespaces>
 		</PropertyGroup>
 
-		<!-- Target files -->
-		<PropertyGroup>
-			<!-- <_AssemblyInfoPath>.\Properties\AssemblyInfo.cs</_AssemblyInfoPath> -->
-			<_AppxManifestPath>.\Package.appxmanifest</_AppxManifestPath>
-		</PropertyGroup>
-
-		<PropertyGroup>
-			<PackageVersion>$(GITVERSION_MAJORMINORPATCH)</PackageVersion>
-			<PackageInformationalVersion>$(GITVERSION_INFORMATIONALVERSION)</PackageInformationalVersion>
-			<PackageBuildNumber>1</PackageBuildNumber>
-		</PropertyGroup>
-
-		<ItemGroup>
-			<_Major Include="$(PackageVersion.Split('.')[0])" />
-			<_Minor Include="$(PackageVersion.Split('.')[1])" />
-			<_Revision Include="$(PackageVersion.Split('.')[2])" />
-		</ItemGroup>
-
-		<Exec Command="git rev-list --count HEAD"
-			  ConsoleToMSBuild="true">
-			<Output TaskParameter="ConsoleOutput"
-					PropertyName="PackageBuildNumber" />
-		</Exec>
-
-		<!-- Project-specific values -->
-		<PropertyGroup>
-			<PackageName>Uno Azure DevOps</PackageName>
-			<PackageCompanyName>nventive</PackageCompanyName>
-			<!-- Increasing the build number since the commit count was reset when the code went public -->
-			<PackageBuildNumber>$([MSBuild]::Add($(PackageBuildNumber), 305))</PackageBuildNumber>
-		</PropertyGroup>
-
-		<PropertyGroup>
-			<_VersionWithBuildNumber>@(_Major).@(_Minor).$(PackageBuildNumber).@(_Revision)</_VersionWithBuildNumber>
-		</PropertyGroup>
-
-		<Message Text="Package version: $(PackageVersion)" />
-		<Message Text="Package informational version: $(PackageInformationalVersion)" />
-		<Message Text="Package build number: $(PackageBuildNumber)" />
-		<Message Text ="Package version with build number: $(_VersionWithBuildNumber)" />
-
-		<!--<AssemblyInfo CodeLanguage="CS"
-				  Condition="Exists('$(_AssemblyInfoPath)')"
-				  OutputFile="$(_AssemblyInfoPath)"
-				  AssemblyProduct="$(PackageName)"
-				  AssemblyCompany="$(PackageCompanyName)"
-				  AssemblyCopyright="Copyright (c) $(PackageCompanyName) $([System.DateTime]::Now.Year)"
-				  AssemblyVersion="$(PackageVersion)"
-				  AssemblyFileVersion="$(PackageBuildNumber)"
-				  AssemblyInformationalVersion="$(PackageInformationalVersion)" />-->
-
-		<!-- UWP -->
 		<!-- Forcing the inclusion of the build number in UWP as the standard format is Major.Minor.Build.Revision -->
 		<!-- Not doing this makes it impossible to update a package unless the version is updated -->
-		<XmlPoke Condition="Exists('$(_AppxManifestPath)')"
-				 XmlInputPath="$(_AppxManifestPath)"
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
 				 Query="/x:Package/x:Identity/@Version"
-				 Value="$(_VersionWithBuildNumber)"
-				 Namespaces="$(_WindowsNamespace)" />
+				 Value="$(ApplicationVersionWithBuildNumber)"
+				 Namespaces="$(_Namespaces)" />
 	</Target>
 </Project>

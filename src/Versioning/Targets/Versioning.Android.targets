@@ -1,79 +1,33 @@
 <Project>
-	<Target Name="SetPackageVersion"
-			BeforeTargets="PrepareForBuild"
-			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(GITVERSION_MAJORMINORPATCH)'!=''">
-		<!-- XML namespaces -->
+	<Target Name="_SetApplicationVersion"
+			BeforeTargets="BeforeBuild"
+			DependsOnTargets="_CalculateApplicationVersion"
+			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(ApplicationVersion)'!=''">
 		<PropertyGroup>
-			<_AndroidNamespace>
+			<!-- _AndroidManifestAbs contains the location of the Android manifest -->
+			<!-- Set by Xamarin Android : https://github.com/xamarin/xamarin-android/blob/a2a76c337705b1a24ee45a0fe979d24319e3bee3/src/Xamarin.Android.Build.Tasks/Xamarin.Android.Common.targets#L691 -->
+			<_ApplicationManifestPath>$(_AndroidManifestAbs)</_ApplicationManifestPath>
+		</PropertyGroup>
+
+		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
+				 Text="No application manifest found for $(MSBuildProjectFile)" />
+
+		<PropertyGroup>
+			<_Namespaces>
 				<Namespace Prefix="android" Uri="http://schemas.android.com/apk/res/android" />
-			</_AndroidNamespace>
-			<_WindowsNamespace>
-				<Namespace Prefix="x" Uri="http://schemas.microsoft.com/appx/manifest/foundation/windows10" />
-			</_WindowsNamespace>
+			</_Namespaces>
 		</PropertyGroup>
 
-		<!-- Target files -->
-		<PropertyGroup>
-			<!-- <_AssemblyInfoPath>.\Properties\AssemblyInfo.cs</_AssemblyInfoPath> -->
-			<_ManifestPath>.\Properties\AndroidManifest.xml</_ManifestPath>
-		</PropertyGroup>
-
-		<PropertyGroup>
-			<PackageVersion>$(GITVERSION_MAJORMINORPATCH)</PackageVersion>
-			<PackageInformationalVersion>$(GITVERSION_INFORMATIONALVERSION)</PackageInformationalVersion>
-			<PackageBuildNumber>1</PackageBuildNumber>
-		</PropertyGroup>
-
-		<ItemGroup>
-			<_Major Include="$(PackageVersion.Split('.')[0])" />
-			<_Minor Include="$(PackageVersion.Split('.')[1])" />
-			<_Revision Include="$(PackageVersion.Split('.')[2])" />
-		</ItemGroup>
-
-		<Exec Command="git rev-list --count HEAD"
-			  ConsoleToMSBuild="true">
-			<Output TaskParameter="ConsoleOutput"
-					PropertyName="PackageBuildNumber" />
-		</Exec>
-
-		<!-- Project-specific values -->
-		<PropertyGroup>
-			<PackageName>Uno Azure DevOps</PackageName>
-			<PackageCompanyName>nventive</PackageCompanyName>
-			<!-- Increasing the build number since the commit count was reset when the code went public -->
-			<PackageBuildNumber>$([MSBuild]::Add($(PackageBuildNumber), 305))</PackageBuildNumber>
-		</PropertyGroup>
-
-		<PropertyGroup>
-			<_VersionWithBuildNumber>@(_Major).@(_Minor).$(PackageBuildNumber).@(_Revision)</_VersionWithBuildNumber>
-		</PropertyGroup>
-
-		<Message Text="Package version: $(PackageVersion)" />
-		<Message Text="Package informational version: $(PackageInformationalVersion)" />
-		<Message Text="Package build number: $(PackageBuildNumber)" />
-		<Message Text ="Package version with build number: $(_VersionWithBuildNumber)" />
-
-		<!--<AssemblyInfo CodeLanguage="CS"
-				  Condition="Exists('$(_AssemblyInfoPath)')"
-				  OutputFile="$(_AssemblyInfoPath)"
-				  AssemblyProduct="$(PackageName)"
-				  AssemblyCompany="$(PackageCompanyName)"
-				  AssemblyCopyright="Copyright (c) $(PackageCompanyName) $([System.DateTime]::Now.Year)"
-				  AssemblyVersion="$(PackageVersion)"
-				  AssemblyFileVersion="$(PackageBuildNumber)"
-				  AssemblyInformationalVersion="$(PackageInformationalVersion)" />-->
-
-		<!-- Android -->
-		<XmlPoke Condition="Exists('$(_ManifestPath)')"
-				 XmlInputPath="$(_ManifestPath)"
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
 				 Query="/manifest/@android:versionName"
-				 Value="$(PackageVersion)"
+				 Value="$(ApplicationVersion)"
 				 Namespaces="$(_AndroidNamespace)" />
 
-		<XmlPoke Condition="Exists('$(_ManifestPath)')"
-				 XmlInputPath="$(_ManifestPath)"
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
 				 Query="/manifest/@android:versionCode"
-				 Value="$(PackageBuildNumber)"
-				 Namespaces="$(_AndroidNamespace)" />
+				 Value="$(ApplicationBuildNumber)"
+				 Namespaces="$(_Namespaces)" />
 	</Target>
 </Project>
