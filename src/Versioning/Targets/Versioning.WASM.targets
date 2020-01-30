@@ -1,0 +1,19 @@
+<Project>
+	<Target Name="_SetApplicationVersion"
+			BeforeTargets="BeforeBuild"
+			DependsOnTargets="_CalculateApplicationVersion"
+			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(WasmHead)'=='true' and '$(ApplicationVersion)'!=''">
+		<PropertyGroup>
+			<!-- There is currently no standard manifest for WASM, a Version.txt file is used -->
+			<_ApplicationManifestPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory),'Version.txt'))</_ApplicationManifestPath>
+		</PropertyGroup>
+
+		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
+				 Text="No application manifest found for $(MSBuildProjectFile)" />
+
+		<WriteLinesToFile Condition="Exists('$(_ApplicationManifestPath)')"
+						  File="$(_WasmVersionFile)"
+						  Lines="$(ApplicationVersionWithBuildNumber)"
+						  Overwrite="true" />
+	</Target>
+</Project>

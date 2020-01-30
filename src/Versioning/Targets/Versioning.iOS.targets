@@ -1,0 +1,25 @@
+<Project>
+	<Target Name="_SetApplicationVersion"
+			BeforeTargets="BeforeBuild"
+			DependsOnTargets="_CalculateApplicationVersion"
+			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(ApplicationVersion)'!=''">
+		<PropertyGroup>
+			<!-- _AppManifest contains the path to Info.plist (an item Test.plist can be set as the iOS plist by setting its LogicalName to Info.plist) relative to the project -->
+			<!-- Set by Xamarin.iOS : https://github.com/xamarin/xamarin-macios/blob/bcb8f01a7a9b3582ced7f20ffa9a0f757d1a4221/msbuild/Xamarin.iOS.Tasks.Core/Xamarin.iOS.Common.targets#L569 -->
+			<_ApplicationManifestPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory),$(_AppManifest)))</_ApplicationManifestPath>
+		</PropertyGroup>
+
+		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
+				 Text="No application manifest found for $(MSBuildProjectFile)" />
+
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
+				 Query="//plist/dict/key[text() = 'CFBundleShortVersionString']/following-sibling::string[1]"
+				 Value="$(ApplicationVersion)" />
+
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
+				 Query="//plist/dict/key[text() = 'CFBundleVersion']/following-sibling::string[1]"
+				 Value="$(ApplicationBuildNumber)" />
+	</Target>
+</Project>

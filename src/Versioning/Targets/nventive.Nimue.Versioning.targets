@@ -1,0 +1,46 @@
+﻿<Project>
+	<Target Name="_CalculateApplicationVersion">
+		<!-- Splitting the version elements; defaults to 0 if the version is not detailed enough -->
+		<PropertyGroup>
+			<_Major>$(ApplicationVersion.Split('.')[0])</_Major>
+			<_Minor Condition="$(ApplicationVersion.Split('.').length) &gt; 1">$(ApplicationVersion.Split('.')[1])</_Minor>
+			<_Minor Condition="'$(_Minor)' == ''">0</_Minor>
+			<_Patch Condition="$(ApplicationVersion.Split('.').length) &gt; 2">$(ApplicationVersion.Split('.')[2])</_Patch>
+			<_Patch Condition="'$(_Patch)' == ''">0</_Patch>
+		</PropertyGroup>
+
+		<PropertyGroup>
+			<_BuildNumberExitCode>0</_BuildNumberExitCode>
+		</PropertyGroup>
+
+		<Message Condition="'$(ApplicationBuildNumber)' == ''"
+				 Text="ApplicationBuildNumber not set; using Git commit count" />
+
+		<!-- If Git doesn't exist, this command will fail -->
+		<Exec Command="git rev-list --count HEAD"
+			  ConsoleToMSBuild="true"
+			  ContinueOnError="true" 
+			  Condition="'$(ApplicationBuildNumber)' == ''">
+			<Output TaskParameter="ConsoleOutput"
+					PropertyName="ApplicationBuildNumber" />
+			<Output TaskParameter="ExitCode"
+					PropertyName="_BuildNumberExitCode" />
+		</Exec>
+
+		<Warning Condition="'$(_BuildNumberExitCode)' != '0'"
+				 Text="ApplicationBuildNumber could not be calculated; defaulting to 1" />
+
+		<PropertyGroup>
+			<ApplicationBuildNumber Condition="'$(_BuildNumberExitCode)' != '0'">1</ApplicationBuildNumber>
+			<ApplicationBuildNumber Condition="'$(ApplicationBuildNumberOffset)' != ''">$([MSBuild]::Add($(ApplicationBuildNumber), $(ApplicationBuildNumberOffset)))</ApplicationBuildNumber>
+			<ApplicationVersionWithBuildNumber>$(_Major).$(_Minor).$(ApplicationBuildNumber).$(_Patch)</ApplicationVersionWithBuildNumber>
+		</PropertyGroup>
+
+		<Message Text="Application information:" />
+		<Message Text="- Version: $(ApplicationVersion)" />
+		<Message Text="- Build number: $(ApplicationBuildNumber)" />
+		<Message Text="- Version including build number: $(ApplicationVersionWithBuildNumber)" />
+	</Target>
+
+	<Import Project="$(MSBuildThisFileDirectory)Versioning.targets" />
+</Project>

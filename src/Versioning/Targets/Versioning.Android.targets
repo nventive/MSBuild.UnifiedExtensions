@@ -1,0 +1,33 @@
+<Project>
+	<Target Name="_SetApplicationVersion"
+			BeforeTargets="BeforeBuild"
+			DependsOnTargets="_CalculateApplicationVersion"
+			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(ApplicationVersion)'!=''">
+		<PropertyGroup>
+			<!-- _AndroidManifestAbs contains the location of the Android manifest -->
+			<!-- Set by Xamarin Android : https://github.com/xamarin/xamarin-android/blob/a2a76c337705b1a24ee45a0fe979d24319e3bee3/src/Xamarin.Android.Build.Tasks/Xamarin.Android.Common.targets#L691 -->
+			<_ApplicationManifestPath>$(_AndroidManifestAbs)</_ApplicationManifestPath>
+		</PropertyGroup>
+
+		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
+				 Text="No application manifest found for $(MSBuildProjectFile)" />
+
+		<PropertyGroup>
+			<_Namespaces>
+				<Namespace Prefix="android" Uri="http://schemas.android.com/apk/res/android" />
+			</_Namespaces>
+		</PropertyGroup>
+
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
+				 Query="/manifest/@android:versionName"
+				 Value="$(ApplicationVersion)"
+				 Namespaces="$(_AndroidNamespace)" />
+
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
+				 Query="/manifest/@android:versionCode"
+				 Value="$(ApplicationBuildNumber)"
+				 Namespaces="$(_Namespaces)" />
+	</Target>
+</Project>
