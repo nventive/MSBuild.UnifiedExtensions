@@ -7,15 +7,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="Props\nventive.Nimue.TargetFrameworks.Filtering.props" Pack="true" PackagePath="buildMultiTargeting/" />
-		<None Include="Props\TargetFrameworks.Filtering.props" Pack="true" PackagePath="buildMultiTargeting/" />
+		<None Include="Props\_Shared.props" Pack="true" PackagePath="buildMultiTargeting/$(PackageId).props" />
 
 		<!-- Multi-target targets -->
-		<None Include="Targets\nventive.Nimue.TargetFrameworks.Filtering.targets" Pack="true" PackagePath="buildMultiTargeting/" />
+		<None Include="Targets\_Shared.targets" Pack="true" PackagePath="buildMultiTargeting/$(PackageId).targets" />
 		<None Include="Targets\TargetFrameworks.Filtering.MultiTargeting.targets" Pack="true" PackagePath="buildMultiTargeting/TargetFrameworks.Filtering.targets" />
 
 		<!-- Single-target targets-->
-		<None Include="Targets\nventive.Nimue.TargetFrameworks.Filtering.targets" Pack="true" PackagePath="build/" />
+		<None Include="Targets\_Shared.targets" Pack="true" PackagePath="build/$(PackageId).targets" />
 		<None Include="Targets\TargetFrameworks.Filtering.targets" Pack="true" PackagePath="build/" />
 	</ItemGroup>
 
