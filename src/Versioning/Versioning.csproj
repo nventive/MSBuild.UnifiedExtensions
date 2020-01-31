@@ -16,4 +16,10 @@
 		<None Include="Targets\Versioning.UAP.targets" Pack="true" PackagePath="build/uap10.0.17763/Versioning.targets" />
 		<None Include="Targets\Versioning.WASM.targets" Pack="true" PackagePath="build/netstandard2.0/Versioning.targets" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<!-- This file is included to indicate that there's nothing in the lib folder -->
+		<!-- This should be suppressed if code is added to this project-->
+		<None Include="$(MSBuildThisFileDirectory)..\_._" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(TargetFrameworks)', '([^;]+)', 'lib/$1/'))" />
+	</ItemGroup>
 </Project>

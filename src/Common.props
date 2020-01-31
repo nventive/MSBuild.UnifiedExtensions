@@ -13,12 +13,27 @@
 
 	<PropertyGroup>
 		<OutputType>module</OutputType>
-		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
+		<!-- For projects that don't have code, the build output doesn't need to be included . Override in the project when code is present -->
+		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<!-- Prevents warning for "No Address and User has been specified in order to establish a connection to a Mac Server" -->
 		<NoWarn>$(NoWarn);VSX1000</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- List of platform-specific target sdks. Allows a dynamic inclusion of framework-specific files without having to use the exact version. See example below: -->
+		<!-- 
+			<None Include="UAP.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_UapTargetFrameworks)', '([^;]+)', 'build/$1/Package.targets'))" />
+			<None Include="Android.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_AndroidTargetFramworks)', '([^;]+)', 'build/$1/Package.targets'))" />
+			<None Include="NetStandard.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_NetStandardTargetFrameworks)', '([^;]+)', 'build/$1/Package.targets'))" />
+			<None Include="iOS.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_IosTargetFrameworks)', '([^;]+)', 'build/$1/Package.targets'))" />
+		-->
+		<_AndroidTargetFramworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))</_AndroidTargetFramworks>
+		<_UapTargetFrameworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(uap[^;]+)'))</_UapTargetFrameworks>
+		<_NetStandardTargetFrameworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(netstandard[^;]+)'))</_NetStandardTargetFrameworks>
+		<_IosTargetFrameworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinios[^;]+)'))</_IosTargetFrameworks>
 	</PropertyGroup>
 
 	<ItemGroup>

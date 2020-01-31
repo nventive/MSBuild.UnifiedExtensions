@@ -19,4 +19,11 @@
 		<None Include="Targets\TargetFrameworks.Filtering.targets" Pack="true" PackagePath="build/" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<!-- This file is included to indicate that there's nothing in the lib folder -->
+		<!-- This should be suppressed if code is added to this project-->
+		<None Include="$(MSBuildThisFileDirectory)..\_._"
+			  Pack="true"
+			  PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(TargetFrameworks)', '([^;]+)', 'lib/$1/'))" />
+	</ItemGroup>
 </Project>

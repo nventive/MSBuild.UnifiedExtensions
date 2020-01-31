@@ -1,0 +1,8 @@
+﻿<Project>
+	<PropertyGroup>
+		<PackageOutputPath Condition="'$(PackageOutputPath)' == '' and '$(Build_ArtifactStagingDirectory)' != ''">$(Build_ArtifactStagingDirectory)</PackageOutputPath>
+	</PropertyGroup>
+
+	<Import Condition="Exists('$(MSBuildThisFileDirectory)Packaging.props')"
+		    Project="$(MSBuildThisFileDirectory)Packaging.props" />
+</Project>
