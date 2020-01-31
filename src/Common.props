@@ -17,6 +17,8 @@
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
+		<!-- Prevents warning for "No Address and User has been specified in order to establish a connection to a Mac Server" -->
+		<NoWarn>$(NoWarn);VSX1000</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
