@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Versioning", "Versioning\Versioning.csproj", "{6736887F-5CB9-4B7D-BACF-3F3704ADCD1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Versioning", "Application.Versioning\Application.Versioning.csproj", "{6736887F-5CB9-4B7D-BACF-3F3704ADCD1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{1B578253-A939-4635-9E10-DA1799BBF3A0}"
 	ProjectSection(SolutionItems) = preProject

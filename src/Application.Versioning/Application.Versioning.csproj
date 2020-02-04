@@ -1,0 +1,32 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+	<Import Project="..\Common.props" />
+
+	<PropertyGroup>
+		<PackageId>nventive.Nimue.Application.Versioning</PackageId>
+		<Description>A set of MSBuild targets to help versioning of cross-targeted applications</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Include shared targets and props for all target frameworks -->
+		<None Include="Props\_Shared.props" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(TargetFrameworks)', '([^;]+)', 'build/$1/$(PackageId).props'))" />
+		<None Include="Targets\_Shared.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(TargetFrameworks)', '([^;]+)', 'build/$1/$(PackageId).targets'))" />
+
+		<!-- Include Android targets for the specified Android target frameworks -->
+		<None Include="Targets\Android.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_AndroidTargetFramworks)', '([^;]+)', 'build/$1/Packaging.targets'))" />
+
+		<!-- Include iOS targets and props for the specified iOS target frameworks -->
+		<None Include="Targets\iOS.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_IosTargetFrameworks)', '([^;]+)', 'build/$1/Packaging.targets'))" />
+		
+		<!-- Include UAP targets and props for the specified UAP target frameworks -->
+		<None Include="Targets\UAP.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_UapTargetFrameworks)', '([^;]+)', 'build/$1/Packaging.targets'))" />
+		
+		<!-- Include WASM targets for the specified NetStandard target frameworks -->
+		<None Include="Targets\WASM.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_NetStandardTargetFrameworks)', '([^;]+)', 'build/$1/Packaging.targets'))" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- This file is included to indicate that there's nothing in the lib folder -->
+		<!-- This should be suppressed if code is added to this project-->
+		<None Include="$(MSBuildThisFileDirectory)..\_._" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(TargetFrameworks)', '([^;]+)', 'lib/$1/'))" />
+	</ItemGroup>
+</Project>
