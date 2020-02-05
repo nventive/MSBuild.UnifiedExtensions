@@ -23,6 +23,6 @@
 		<!-- This should be suppressed if code is added to this project-->
 		<None Include="$(MSBuildThisFileDirectory)..\_._"
 			  Pack="true"
-			  PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(TargetFrameworks)', '([^;]+)', 'lib/$1/'))" />
+			  PackagePath="@(_AllTargetFrameworks->'lib/%(Identity)/')" />
 	</ItemGroup>
 </Project>

@@ -22,19 +22,29 @@
 		<NoWarn>$(NoWarn);VSX1000</NoWarn>
 	</PropertyGroup>
 
-	<PropertyGroup>
+	<ItemGroup>
+		<_AllTargetFrameworks Include="$(TargetFrameworks)" />
+		<_AndroidTargetFramworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))" />
+		<_IosTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinios[^;]+)'))" />
+		<_UapTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(uap[^;]+)'))" />
+		<_NetStandardTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(netstandard[^;]+)'))" />
 		<!-- List of platform-specific target sdks. Allows a dynamic inclusion of framework-specific files without having to use the exact version. See example below: -->
 		<!-- 
-			<None Include="UAP.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_UapTargetFrameworks)', '([^;]+)', 'build/$1/Package.targets'))" />
-			<None Include="Android.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_AndroidTargetFramworks)', '([^;]+)', 'build/$1/Package.targets'))" />
-			<None Include="NetStandard.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_NetStandardTargetFrameworks)', '([^;]+)', 'build/$1/Package.targets'))" />
-			<None Include="iOS.targets" Pack="true" PackagePath="$([System.Text.RegularExpressions.Regex]::Replace('$(_IosTargetFrameworks)', '([^;]+)', 'build/$1/Package.targets'))" />
+			<None Include="All.targets" Pack="true" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/Example.targets')" />
+			<None Include="Android.targets" Pack="true" PackagePath="@(_AndroidTargetFramworks->'build/%(Identity)/Example.targets')" />
+			<None Include="iOS.targets" Pack="true" PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Example.targets')" />
+			<None Include="UAP.targets" Pack="true" PackagePath="@(_UapTargetFrameworks->'build/%(Identity)/Example.targets')" />
+			<None Include="NetStandard.targets" Pack="true" PackagePath="@(_NetStandardTargetFrameworks->'build/%(Identity)/Example.targets')" />
 		-->
-		<_AndroidTargetFramworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))</_AndroidTargetFramworks>
-		<_UapTargetFrameworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(uap[^;]+)'))</_UapTargetFrameworks>
-		<_NetStandardTargetFrameworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(netstandard[^;]+)'))</_NetStandardTargetFrameworks>
-		<_IosTargetFrameworks>$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinios[^;]+)'))</_IosTargetFrameworks>
-	</PropertyGroup>
+		<!-- Assuming that TargetFrameworks = xamarinios10;monoandroid90;monoandroid10.0;uap10.0.17763;netstandard2.0, this will result in the following: -->
+		<!--
+			<None Include="All.targets" Pack="true" PackagePath="build/xamarinios10/Example.targets;build/monoandroid90/Example.targets;build/monoandroid10.0/Example.targets;build/uap10.0.17763/Example.targets;build/netstandard2.0/Example.targets" />
+			<None Include="Android.targets" Pack="true" PackagePath="build/monoandroid90/Example.targets;build/monoandroid10.0/Example.targets" />
+			<None Include="iOS.targets" Pack="true" PackagePath="build/xamarinios10/Example.targets)" />
+			<None Include="UAP.targets" Pack="true" PackagePath="build/uap10.0.17763/Example.targets" />
+			<None Include="NetStandard.targets" Pack="true" PackagePath="build/netstandard2.0/Example.targets" />
+		-->
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="$(MSBuildThisFileDirectory)..\icon.png"
