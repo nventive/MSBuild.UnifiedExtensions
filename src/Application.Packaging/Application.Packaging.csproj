@@ -1,0 +1,52 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+	<Import Project="..\Common.props" />
+
+	<PropertyGroup>
+		<PackageId>nventive.Nimue.Application.Packaging</PackageId>
+		<Description>A set of MSBuild targets to help managing package output for cross-targeted applications</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Include shared targets and props for all target frameworks -->
+		<None Include="Props\_Shared.props"
+			  Pack="true"
+			  PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/$(PackageId).props')" />
+		<None Include="Targets\_Shared.targets"
+			  Pack="true"
+			  PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/$(PackageId).targets')" />
+
+		<!-- Include Android targets for the specified Android target frameworks -->
+		<None Include="Targets\Android.targets"
+			  Pack="true"
+			  PackagePath="@(_AndroidTargetFramworks->'build/%(Identity)/Packaging.targets')" />
+
+		<!-- Include iOS targets and props for the specified iOS target frameworks -->
+		<None Include="Props\iOS.props"
+			  Pack="true"
+			  PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Packaging.props')" />
+		<None Include="Targets\iOS.targets"
+			  Pack="true"
+			  PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Packaging.targets')" />
+
+		<!-- Include UAP targets and props for the specified UAP target frameworks -->
+		<None Include="Props\UAP.props"
+			  Pack="true"
+			  PackagePath="@(_UapTargetFrameworks->'build/%(Identity)/Packaging.props')" />
+		<None Include="Targets\UAP.targets"
+			  Pack="true"
+			  PackagePath="@(_UapTargetFrameworks->'build/%(Identity)/Packaging.targets')" />
+
+		<!-- Include WASM targets for the specified NetStandard target frameworks -->
+		<None Include="Targets\WASM.targets"
+			  Pack="true"
+			  PackagePath="@(_NetStandardTargetFrameworks->'build/%(Identity)/Packaging.targets')" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- This file is included to indicate that there's nothing in the lib folder -->
+		<!-- This should be suppressed if code is added to this project-->
+		<None Include="$(MSBuildThisFileDirectory)..\_._"
+			  Pack="true"
+			  PackagePath="@(_AllTargetFrameworks->'lib/%(Identity)/')" />
+	</ItemGroup>
+</Project>

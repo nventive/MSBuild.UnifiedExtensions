@@ -13,11 +13,38 @@
 
 	<PropertyGroup>
 		<OutputType>module</OutputType>
-		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
+		<!-- For projects that don't have code, the build output doesn't need to be included . Override in the project when code is present -->
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<!-- Prevents warning for "No Address and User has been specified in order to establish a connection to a Mac Server" -->
+		<NoWarn>$(NoWarn);VSX1000</NoWarn>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<_AllTargetFrameworks Include="$(TargetFrameworks)" />
+		<_AndroidTargetFramworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))" />
+		<_IosTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinios[^;]+)'))" />
+		<_UapTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(uap[^;]+)'))" />
+		<_NetStandardTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(netstandard[^;]+)'))" />
+		<!-- List of platform-specific target sdks. Allows a dynamic inclusion of framework-specific files without having to use the exact version. See example below: -->
+		<!-- 
+			<None Include="All.targets" Pack="true" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/Example.targets')" />
+			<None Include="Android.targets" Pack="true" PackagePath="@(_AndroidTargetFramworks->'build/%(Identity)/Example.targets')" />
+			<None Include="iOS.targets" Pack="true" PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Example.targets')" />
+			<None Include="UAP.targets" Pack="true" PackagePath="@(_UapTargetFrameworks->'build/%(Identity)/Example.targets')" />
+			<None Include="NetStandard.targets" Pack="true" PackagePath="@(_NetStandardTargetFrameworks->'build/%(Identity)/Example.targets')" />
+		-->
+		<!-- Assuming that TargetFrameworks = xamarinios10;monoandroid90;monoandroid10.0;uap10.0.17763;netstandard2.0, this will result in the following: -->
+		<!--
+			<None Include="All.targets" Pack="true" PackagePath="build/xamarinios10/Example.targets;build/monoandroid90/Example.targets;build/monoandroid10.0/Example.targets;build/uap10.0.17763/Example.targets;build/netstandard2.0/Example.targets" />
+			<None Include="Android.targets" Pack="true" PackagePath="build/monoandroid90/Example.targets;build/monoandroid10.0/Example.targets" />
+			<None Include="iOS.targets" Pack="true" PackagePath="build/xamarinios10/Example.targets)" />
+			<None Include="UAP.targets" Pack="true" PackagePath="build/uap10.0.17763/Example.targets" />
+			<None Include="NetStandard.targets" Pack="true" PackagePath="build/netstandard2.0/Example.targets" />
+		-->
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="$(MSBuildThisFileDirectory)..\icon.png"
