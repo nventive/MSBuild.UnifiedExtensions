@@ -22,7 +22,7 @@
 				 XmlInputPath="$(_ApplicationManifestPath)"
 				 Query="/manifest/@android:versionName"
 				 Value="$(ApplicationVersion)"
-				 Namespaces="$(_AndroidNamespace)" />
+				 Namespaces="$(_Namespaces)" />
 
 		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
 				 XmlInputPath="$(_ApplicationManifestPath)"
