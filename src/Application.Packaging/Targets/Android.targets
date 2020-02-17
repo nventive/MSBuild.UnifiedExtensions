@@ -3,6 +3,11 @@
 			AfterTargets="SignAndroidPackage"
 			Condition="'$(PackageOutputPath)'!='' and '$(AndroidApplication)'=='true'">
 		<Copy SourceFiles="@(ApkAbiFilesAligned)"
+			  Condition="'$(AndroidPackageFormat)' != 'aab'"
 			  DestinationFiles="@(ApkAbiFilesAligned->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+
+		<Copy SourceFiles="$(_AabFileSigned)"
+			  Condition="'$(AndroidPackageFormat)' == 'aab'"
+			  DestinationFolder="$(PackageOutputPath)" />
 	</Target>
 </Project>
