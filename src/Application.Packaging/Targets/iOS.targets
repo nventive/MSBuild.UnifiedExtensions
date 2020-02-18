@@ -1,7 +1,7 @@
 ﻿<Project>
 	<Target Name="_CopyApplicationPackagesForPublishing"
 			AfterTargets="Build"
-			Condition="'$(PackageOutputPath)'!='' and '$(BuildIpa)'=='True' and Exists('$(IpaPackagePath)')">
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)'!='' and '$(BuildIpa)'=='True' and Exists('$(IpaPackagePath)')">
 		<Copy SourceFiles="$(IpaPackagePath)"
 			  DestinationFolder="$(PackageOutputPath)\" />
 

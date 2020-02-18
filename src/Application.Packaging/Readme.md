@@ -8,6 +8,8 @@ To make it even easier, the variable used for this purpose is [the one used when
 ## How to use it?
 Simply install the NuGet package in the your UAP, Xamarin.Android and Xamarin.iOS application projects. Once there, there's several options:
 
+*Note: This feature is disaled when building in Visual Studio*
+
 ### Project level
 In the csproj file, add the following:
 ```xml
