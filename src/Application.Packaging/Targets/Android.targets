@@ -1,7 +1,8 @@
 ﻿<Project>
 	<Target Name="_CopyApplicationPackagesForPublishing"
-			AfterTargets="SignAndroidPackage"
-			Condition="'$(PackageOutputPath)'!='' and '$(AndroidApplication)'=='true'">
+			AfterTargets="Build"
+			DependsOnTargets="SignAndroidPackage"
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)' != '' and '$(AndroidApplication)' == 'true'">
 		<Copy SourceFiles="@(ApkAbiFilesAligned)"
 			  Condition="'$(AndroidPackageFormat)' != 'aab'"
 			  DestinationFiles="@(ApkAbiFilesAligned->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />

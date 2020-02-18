@@ -1,7 +1,7 @@
 ﻿<Project>
 	<Target Name="_CopyApplicationPackagesForPublishing"
 			AfterTargets="Build"
-			Condition="'$(PackageOutputPath)'!='' and '$(WasmHead)'=='true'">
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)' != '' and '$(WasmHead)' == 'true'">
 		<ItemGroup>
 			<_WasmFiles Include="$(OutputPath)dist\**\*.*" />
 		</ItemGroup>

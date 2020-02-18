@@ -1,7 +1,7 @@
 ﻿<Project>
 	<Target Name="_CopyApplicationPackagesForPublishing"
 		    AfterTargets="Build"
-			Condition="'$(PackageOutputPath)'!='' and '$(AppxBundle)'=='Always' and Exists('$(AppxBundleOutput)')">
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)' != '' and '$(AppxBundle)' == 'Always' and Exists('$(AppxBundleOutput)')">
 		<ItemGroup>
 			<_UwpFiles Include="$(AppxPackageTestDir)\**\*.*" />
 		</ItemGroup>
