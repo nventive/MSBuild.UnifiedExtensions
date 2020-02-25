@@ -19,7 +19,7 @@
 		<!-- For projects that don't have code, the build output doesn't need to be included . Override in the project when code is present -->
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<!-- Prevents warning for "No Address and User has been specified in order to establish a connection to a Mac Server" -->
-		<NoWarn>$(NoWarn);VSX1000</NoWarn>
+		<NoWarn>$(NoWarn);VSX1000;NU5105</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>

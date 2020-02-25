@@ -1,0 +1,30 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+	<Import Project="..\Common.props" />
+
+	<PropertyGroup>
+		<PackageId>nventive.Nimue.Application.Building.Light</PackageId>
+		<Description>A set of MSBuild targets to help speeding up application build time by setting build options</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Include shared props for all target frameworks -->
+		<None Include="Props\_Shared.props" Pack="true" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/$(PackageId).props')" />
+
+		<!-- Android-specific -->
+		<None Include="Props\Android.props" Pack="true" PackagePath="@(_AndroidTargetFrameworks->'build/%(Identity)/Building.Light.props')" />
+
+		<!-- iOS-specific -->
+		<None Include="Props\iOS.props" Pack="true" PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Building.Light.props')" />
+		
+		<!-- UAP-specific -->
+		<None Include="Props\UAP.props" Pack="true" PackagePath="@(_UapTargetFrameworks->'build/%(Identity)/Building.Light.props')" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- This file is included to indicate that there's nothing in the lib folder -->
+		<!-- This should be suppressed if code is added to this project-->
+		<None Include="$(MSBuildThisFileDirectory)..\_._"
+			  Pack="true"
+			  PackagePath="@(_AllTargetFrameworks->'lib/%(Identity)/')" />
+	</ItemGroup>
+</Project>

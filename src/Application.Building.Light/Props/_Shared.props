@@ -1,0 +1,8 @@
+﻿<Project>
+	<PropertyGroup Condition="'$(IsLightBuild)' == 'True'">
+		<Optimize>False</Optimize>
+	</PropertyGroup>
+	
+	<Import Condition="Exists('$(MSBuildThisFileDirectory)Building.Light.props')"
+		    Project="$(MSBuildThisFileDirectory)Building.Light.props" />
+</Project>

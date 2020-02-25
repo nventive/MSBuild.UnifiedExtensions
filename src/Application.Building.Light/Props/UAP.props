@@ -1,0 +1,5 @@
+﻿<Project>
+	<PropertyGroup Condition="'$(IsLightBuild)' == 'True'">
+		<UseDotNetNativeToolchain>False</UseDotNetNativeToolchain>
+	</PropertyGroup>
+</Project>

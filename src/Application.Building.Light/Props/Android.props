@@ -1,0 +1,6 @@
+﻿<Project>
+	<PropertyGroup Condition="'$(IsLightBuild)' == 'True'">
+		<AotAssemblies>False</AotAssemblies>
+		<EnableLLVM>False</EnableLLVM>
+	</PropertyGroup>
+</Project>
