@@ -1,0 +1,14 @@
+﻿<Project>
+	<PropertyGroup Condition="'$(IsLightBuild)' == 'True'">
+		<!-- Prevents PNG optimization -->
+		<OptimizePNGs>False</OptimizePNGs>
+		<!-- Disables LLVM -->
+		<MtouchUseLlvm>False</MtouchUseLlvm>
+		<MtouchUseThumb>False</MtouchUseThumb>
+		<!-- Disables symbol stripping -->
+		<MtouchNoSymbolStrip>True</MtouchNoSymbolStrip>
+		<MtouchNoStrip>True</MtouchNoStrip>
+		<!-- Disables dSYM creation -->
+		<MtouchExtraArgs>$(MtouchExtraArgs) --dsym=false</MtouchExtraArgs>
+	</PropertyGroup>
+</Project>
