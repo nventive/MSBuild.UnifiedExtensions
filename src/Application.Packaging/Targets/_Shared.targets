@@ -1,3 +1,5 @@
 ﻿<Project>
+	<UsingTask AssemblyFile="$(MSBuildThisFileDirectory)/../../Tools/Application.Packaging.dll"
+			   TaskName="MSBuild.Community.Tasks.FileUpdate"/>
 	<Import Project="$(MSBuildThisFileDirectory)Packaging.targets" />
 </Project>
