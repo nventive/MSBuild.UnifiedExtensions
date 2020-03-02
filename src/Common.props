@@ -5,17 +5,15 @@
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<Copyright>Copyright ©2020 nventive inc.</Copyright>
 		<Description>A set of MSBuild targets designed to ease cross-platform development</Description>
-		<tags>msbuild cross-platform xamarin</tags>
+		<PackageTags>msbuild cross-platform xamarin</PackageTags>
 		<ProjectUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</ProjectUrl>
 		<RepositoryUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
-
+		
 	<PropertyGroup>
 		<OutputType>module</OutputType>
 		<DevelopmentDependency>true</DevelopmentDependency>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)Packages</PackageOutputPath>
 		<!-- For projects that don't have code, the build output doesn't need to be included . Override in the project when code is present -->
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<!-- Prevents warning for "No Address and User has been specified in order to establish a connection to a Mac Server" -->
@@ -51,4 +49,31 @@
 			  Pack="true"
 			  PackagePath="$(PackageIcon)" />
 	</ItemGroup>
+	
+	<!-- Package Debug -->
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageOutputPath Condition="'$(BuildingInsideVisualStudio)' == 'True'">/Packages</PackageOutputPath>
+		<PackageVersion  Condition="'$(BuildingInsideVisualStudio)' == 'True'">999.999.999-debug</PackageVersion>
+	</PropertyGroup>
+	
+	<Target Name="_ClearPackageCache"
+			AfterTargets="Pack" 
+			Condition="'$(NugetPackageRoot)' != '' and '$(PackageId)' != ''">
+		<PropertyGroup>
+			<_PackageCacheRoot>$(NugetPackageRoot)\$(PackageId)\$(PackageVersion)</_PackageCacheRoot>
+		</PropertyGroup>
+		
+		<ItemGroup>
+			<_NuGetCacheFiles Include="$(_PackageCacheRoot)\**\*.*" />
+		</ItemGroup>
+		
+		<Message Importance="high" Text="Deleting NuGet cache under $(_PackageCacheRoot)" />
+		
+		<Delete Files="@(_NuGetCacheFiles)" />
+		<RemoveDir Directories="$(_PackageCacheRoot)"
+				   Condition="Exists('$(_PackageCacheRoot)')" />
+	</Target>
 </Project>

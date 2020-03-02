@@ -11,4 +11,58 @@
 			  Condition="'$(AndroidPackageFormat)' == 'aab'"
 			  DestinationFolder="$(PackageOutputPath)" />
 	</Target>
+
+	<Target Name="_UpdatePackageId"
+			BeforeTargets="BeforeBuild"
+			Condition="'$(AndroidApplication)' == 'true' and '$(ApplicationIdentifier)' != ''">
+
+		<PropertyGroup>
+			<!-- _AndroidManifestAbs contains the location of the Android manifest -->
+			<!-- Set by Xamarin Android : https://github.com/xamarin/xamarin-android/blob/a2a76c337705b1a24ee45a0fe979d24319e3bee3/src/Xamarin.Android.Build.Tasks/Xamarin.Android.Common.targets#L691 -->
+			<_ApplicationManifestPath>$(_AndroidManifestAbs)</_ApplicationManifestPath>
+		</PropertyGroup>
+
+		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
+				 Text="No application manifest found for $(MSBuildProjectFile)" />
+
+		<XmlPeek Condition="Exists('$(_ApplicationManifestPath)')"
+				 XmlInputPath="$(_ApplicationManifestPath)"
+				 Query="/manifest/@package"
+				 Namespaces="http://schemas.android.com/apk/res/android">
+			<Output TaskParameter="Result"
+					PropertyName="_CurrentApplicationIdentifier" />
+		</XmlPeek>
+
+		<Message Text="Current package identifier is '$(_CurrentAndroidPackageId)' in $(_ApplicationManifestPath)"
+				 Condition="'$(_CurrentAndroidPackageId)' != ''" />
+
+		<Warning Text="Could not determine the current Android package name; searched in $(_ApplicationManifestPath)"
+				 Condition="Exists('$(_ApplicationManifestPath)') and '$(_CurrentApplicationIdentifier)' == ''" />
+
+		<PropertyGroup>
+			<_ShouldReplaceApplicationIdentifier>False</_ShouldReplaceApplicationIdentifier>
+			<_ShouldReplaceApplicationIdentifier Condition="'$(_CurrentApplicationIdentifier)' != '' and '$(_CurrentApplicationIdentifier)' != '$(ApplicationIdentifier)'">True</_ShouldReplaceApplicationIdentifier>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<_CsharpFiles Include="..\**\*.cs" />
+			<_XmlFiles Include="..\**\*.xml" />
+		</ItemGroup>
+
+		<Message Text="Changing Android packaged identifier from '$(_CurrentApplicationIdentifier)' to '$(ApplicationIdentifier)'"
+				 Condition="$(_ShouldReplaceApplicationIdentifier)"
+				 Importance="$(_MessageImportance)" />
+
+		<FileUpdate Files="@(_CsharpFiles)"
+					Regex="$(_CurrentApplicationIdentifier)"
+					ReplacementText="$(ApplicationIdentifier)"
+					IgnoreCase="True"
+					Condition="$(_ShouldReplaceApplicationIdentifier)"/>
+
+		<FileUpdate Files="@(_XmlFiles)"
+					Regex="$(_CurrentApplicationIdentifier)"
+					ReplacementText="$(ApplicationIdentifier)"
+					IgnoreCase="True"
+					Condition="$(_ShouldReplaceApplicationIdentifier)"/>
+	</Target>
 </Project>
