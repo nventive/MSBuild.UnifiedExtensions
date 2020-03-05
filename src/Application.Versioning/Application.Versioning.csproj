@@ -18,7 +18,7 @@
 		<!-- Include Android targets for the specified Android target frameworks -->
 		<None Include="Targets\Android.targets"
 			  Pack="true"
-			  PackagePath="@(_AndroidTargetFramworks->'build/%(Identity)/Versioning.targets')" />
+			  PackagePath="@(_AndroidTargetFrameworks->'build/%(Identity)/Versioning.targets')" />
 
 		<!-- Include iOS targets and props for the specified iOS target frameworks -->
 		<None Include="Targets\iOS.targets"

@@ -22,14 +22,14 @@
 
 	<ItemGroup>
 		<_AllTargetFrameworks Include="$(TargetFrameworks)" />
-		<_AndroidTargetFramworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))" />
+		<_AndroidTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))" />
 		<_IosTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinios[^;]+)'))" />
 		<_UapTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(uap[^;]+)'))" />
 		<_NetStandardTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(netstandard[^;]+)'))" />
 		<!-- List of platform-specific target sdks. Allows a dynamic inclusion of framework-specific files without having to use the exact version. See example below: -->
 		<!-- 
 			<None Include="All.targets" Pack="true" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/Example.targets')" />
-			<None Include="Android.targets" Pack="true" PackagePath="@(_AndroidTargetFramworks->'build/%(Identity)/Example.targets')" />
+			<None Include="Android.targets" Pack="true" PackagePath="@(_AndroidTargetFrameworks->'build/%(Identity)/Example.targets')" />
 			<None Include="iOS.targets" Pack="true" PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Example.targets')" />
 			<None Include="UAP.targets" Pack="true" PackagePath="@(_UapTargetFrameworks->'build/%(Identity)/Example.targets')" />
 			<None Include="NetStandard.targets" Pack="true" PackagePath="@(_NetStandardTargetFrameworks->'build/%(Identity)/Example.targets')" />

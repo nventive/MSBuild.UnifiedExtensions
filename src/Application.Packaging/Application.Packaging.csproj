@@ -15,7 +15,7 @@
 		<None Include="Targets\_Shared.targets" Pack="true" PackagePath="@(_AllTargetFrameworks->'build/%(Identity)/$(PackageId).targets')" />
 
 		<!-- Include Android targets for the specified Android target frameworks -->
-		<None Include="Targets\Android.targets" Pack="true" PackagePath="@(_AndroidTargetFramworks->'build/%(Identity)/Packaging.targets')" />
+		<None Include="Targets\Android.targets" Pack="true" PackagePath="@(_AndroidTargetFrameworks->'build/%(Identity)/Packaging.targets')" />
 
 		<!-- Include iOS targets and props for the specified iOS target frameworks -->
 		<None Include="Props\iOS.props" Pack="true" PackagePath="@(_IosTargetFrameworks->'build/%(Identity)/Packaging.props')" />
