@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added Building.Light
 - Added Packaging targets
 - Added base for Versioning targets
+- Added Target framework filtering
 
 ### Changed
 
