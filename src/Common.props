@@ -5,7 +5,7 @@
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<Copyright>Copyright ©2020 nventive inc.</Copyright>
 		<Description>A set of MSBuild targets designed to ease cross-platform development</Description>
-		<PackageTags>msbuild cross-platform xamarin</PackageTags>
+		<PackageTags>msbuild cross-platform xamarin azuredevops</PackageTags>
 		<ProjectUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</ProjectUrl>
 		<RepositoryUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
