@@ -69,5 +69,5 @@ stages:
       inputs:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/$(ArtifactName)/*.nupkg'
-        nuGetFeedType: 'internal'
-        publishVstsFeed: 'nventive'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'NuGet.org - nventive'
