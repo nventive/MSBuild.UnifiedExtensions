@@ -31,7 +31,7 @@ msbuild.exe [...] /p:ApplicationVersion=1.2.3 /p:ApplicationBuildNumber=123
 ```
 
 #### Azure Pipelines YAML
-When building the solution with Azure Pipelines, `PackageOutputPath` is automatically set to `$(Build.ArtifactStagingDirectory)`, which is the standard location to place build artifacts. The path can also be set like so
+When building the solution with Azure Pipelines, if GitVersion is used and run before the build step, `ApplicationVersion` is automatically set to `$(GITVERSION_MAJORMINORPATCH)`. The variables can also be set like so
 ```yml
 variables:
 - name: ApplicationVersion
