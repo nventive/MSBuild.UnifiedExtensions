@@ -51,6 +51,9 @@ stages:
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   jobs:
   - job: NuGet_Internal
+
+    pool:
+      vmImage: 'windows-latest'
   
     steps:
     - checkout: none
