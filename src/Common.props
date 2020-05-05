@@ -53,8 +53,6 @@
 	<!-- Package Debug -->
 	<PropertyGroup>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageOutputPath Condition="'$(BuildingInsideVisualStudio)' == 'True'">/Packages</PackageOutputPath>
 		<PackageVersion  Condition="'$(BuildingInsideVisualStudio)' == 'True'">999.999.999-debug</PackageVersion>
 	</PropertyGroup>
