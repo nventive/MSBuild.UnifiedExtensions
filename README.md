@@ -1,6 +1,4 @@
-# Nimue
-
-MSBuild Unified Extensions
+# MSBuild Unified Extensions
 
 A set of MSBuild extensions to ease cross-platform development.
 
@@ -38,6 +36,7 @@ contributing to this project.
 
 Be mindful of our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## Acknowledgments
+## Contributors
 
-{List similar projects, inspirations, etc. related to this project.}
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
