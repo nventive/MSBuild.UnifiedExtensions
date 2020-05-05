@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "benventive",
+      "name": "Benjamin Cartier",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/12036943?v=4",
+      "profile": "https://github.com/benventive",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "MSBuild.UnifiedExtensions",
+  "projectOwner": "nventive",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
