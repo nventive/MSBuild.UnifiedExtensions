@@ -9,11 +9,17 @@ A set of MSBuild extensions to ease cross-platform development.
 ## Getting Started
 
 Simply install the packages in your solution. You can find specific documentation for each tool:
-- [Packaging](/Packaging/Readme.md)
+- [Application.Building.Light](/src/Application.Building.Light/Readme.md)
+- [Application.Packaging](/src/Application.Packaging/Readme.md)
+- [Application.Versioning](/src/Application.Versioning/Readme.md)
+- [TargetFrameworks.Filtering](/src/TargetFrameworks.Filtering/Readme.md)
 
 ## Features
 
+- Run lightweight builds to make pull requests builds faster.
 - Manage output paths in a single, unified way accross Xamarin iOS, Xamarin Android, UAP and Web Assembly.
+- Manage version for Xamarin iOS, Xamarin Android, UAP and Web Assembly applications.
+- Easily build partial cross-targeted libraries to validate compilation by skipping unknown target frameworks
 
 ## Changelog
 
