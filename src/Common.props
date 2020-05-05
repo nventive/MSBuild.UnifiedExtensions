@@ -6,8 +6,8 @@
 		<Copyright>Copyright ©2020 nventive inc.</Copyright>
 		<Description>A set of MSBuild targets designed to ease cross-platform development</Description>
 		<PackageTags>msbuild cross-platform xamarin azuredevops</PackageTags>
-		<ProjectUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</ProjectUrl>
-		<RepositoryUrl>https://dev.azure.com/nventive/Open%20Source/_git/Nimue</RepositoryUrl>
+		<ProjectUrl>https://github.com/nventive/MSBuild.UnifiedExtensions/</ProjectUrl>
+		<RepositoryUrl>https://github.com/nventive/MSBuild.UnifiedExtensions/</RepositoryUrl>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
 		
