@@ -12,7 +12,7 @@
 				 Text="No application manifest found for $(MSBuildProjectFile)" />
 
 		<WriteLinesToFile Condition="Exists('$(_ApplicationManifestPath)')"
-						  File="$(_WasmVersionFile)"
+						  File="$(_ApplicationManifestPath)"
 						  Lines="$(ApplicationVersionWithBuildNumber)"
 						  Overwrite="true" />
 	</Target>
