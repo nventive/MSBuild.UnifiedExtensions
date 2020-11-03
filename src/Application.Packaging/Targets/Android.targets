@@ -33,8 +33,8 @@
 					PropertyName="_CurrentApplicationIdentifier" />
 		</XmlPeek>
 
-		<Message Text="Current package identifier is '$(_CurrentAndroidPackageId)' in $(_ApplicationManifestPath)"
-				 Condition="'$(_CurrentAndroidPackageId)' != ''" />
+		<Message Text="Current package identifier is '$(_CurrentApplicationIdentifier)' in $(_ApplicationManifestPath)"
+				 Condition="'$(_CurrentApplicationIdentifier)' != ''" />
 
 		<Warning Text="Could not determine the current Android package name; searched in $(_ApplicationManifestPath)"
 				 Condition="Exists('$(_ApplicationManifestPath)') and '$(_CurrentApplicationIdentifier)' == ''" />
@@ -49,7 +49,7 @@
 			<_XmlFiles Include="..\**\*.xml" />
 		</ItemGroup>
 
-		<Message Text="Changing Android packaged identifier from '$(_CurrentApplicationIdentifier)' to '$(ApplicationIdentifier)'"
+		<Message Text="Changing Android package identifier from '$(_CurrentApplicationIdentifier)' to '$(ApplicationIdentifier)'"
 				 Condition="$(_ShouldReplaceApplicationIdentifier)"
 				 Importance="$(_MessageImportance)" />
 
