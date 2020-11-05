@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Added Packaging targets
 - Added base for Versioning targets
 - Added Target framework filtering
+- Added possibility to update the application identifier for iOS
 
 ### Changed
 
