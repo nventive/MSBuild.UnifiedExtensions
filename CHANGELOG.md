@@ -20,5 +20,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Fixed error when attempting to write the WASM version
+- Fixed issue where Android application id is changed too late in the build process
 
 ### Security
