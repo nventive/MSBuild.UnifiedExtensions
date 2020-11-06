@@ -21,7 +21,7 @@
 		<PropertyGroup>
 			<!-- _AndroidManifestAbs contains the location of the Android manifest -->
 			<!-- Set by Xamarin Android : https://github.com/xamarin/xamarin-android/blob/a2a76c337705b1a24ee45a0fe979d24319e3bee3/src/Xamarin.Android.Build.Tasks/Xamarin.Android.Common.targets#L691 -->
-			<_ApplicationManifestPath>$(_AndroidManifestAbs)</_ApplicationManifestPath>
+			<_ApplicationManifestPath>$(ProjectDir)$(AndroidManifest)</_ApplicationManifestPath>
 		</PropertyGroup>
 
 		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
