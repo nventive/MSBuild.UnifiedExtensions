@@ -12,8 +12,10 @@
 			  DestinationFolder="$(PackageOutputPath)" />
 	</Target>
 
+	 <!-- _ValidateAndroidPackageProperties fetches the packagd id from the manifest and stores it in a variable used throughout the build -->
+	 <!-- The id must be changed before this happens -->
 	<Target Name="_UpdatePackageId"
-			BeforeTargets="_ResolveSdks"
+			BeforeTargets="_ValidateAndroidPackageProperties"
 			Condition="'$(AndroidApplication)' == 'true' and '$(ApplicationIdentifier)' != ''">
 
 		<PropertyGroup>
