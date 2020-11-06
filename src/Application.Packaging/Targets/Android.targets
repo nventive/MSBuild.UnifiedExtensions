@@ -13,7 +13,7 @@
 	</Target>
 
 	<Target Name="_UpdatePackageId"
-			BeforeTargets="StartAndroidActivity"
+			BeforeTargets="_ResolveSdks"
 			Condition="'$(AndroidApplication)' == 'true' and '$(ApplicationIdentifier)' != ''">
 
 		<PropertyGroup>
