@@ -52,7 +52,7 @@ In the csproj file, add the following:
 </PropertyGroup>
 ```
 This will cause the identifier to be changed to `com.company.release` in Release and `com.company.debug` in Debug.
-Beware when using the `ApplicationIdentifier` this way as it will cause `.cs` and `.xml` files to be re-written every time the application is built.
+Beware when using the `ApplicationIdentifier` this way on an Android project as it will cause `.cs` and `.xml` files to be re-written every time the application is built.
 
 *Note: the condition can be changed to anything*
 

@@ -12,4 +12,31 @@
 		<Copy SourceFiles="@(_dSYMFiles)"
 			  DestinationFolder="$(PackageOutputPath)\$(_AppBundleName).dSYM\" />
 	</Target>
+	<Target Name="_UpdateBundleIdentifier"
+		BeforeTargets="BeforeBuild"
+		Condition="'$(ApplicationIdentifier)' != ''">
+		<PropertyGroup>
+			<!-- _AppManifest contains the path to Info.plist (an item Test.plist can be set as the iOS plist by setting its LogicalName to Info.plist) relative to the project -->
+			<!-- Set by Xamarin.iOS : https://github.com/xamarin/xamarin-macios/blob/bcb8f01a7a9b3582ced7f20ffa9a0f757d1a4221/msbuild/Xamarin.iOS.Tasks.Core/Xamarin.iOS.Common.targets#L569 -->
+			<_ApplicationManifestPath>$([System.IO.Path]::Combine($(MSBuildProjectDirectory),$(_AppManifest)))</_ApplicationManifestPath>
+		</PropertyGroup>
+		
+		<XmlPeek Condition="Exists('$(_ApplicationManifestPath)')"
+			 XmlInputPath="$(_ApplicationManifestPath)"
+			 Query="//plist/dict/key[text() = 'CFBundleIdentifier']/following-sibling::string[1]">
+			<Output TaskParameter="Result"
+				PropertyName="_CurrentApplicationIdentifier" />
+		</XmlPeek>
+		
+		<Message Text="Current bundle identifier is '$(_CurrentApplicationIdentifier)' in $(_ApplicationManifestPath)"
+			 Condition="'$(_CurrentApplicationIdentifier)' != ''" />
+		
+		<Message Text="Changing iOS bundle identifier from '$(_CurrentApplicationIdentifier)' to '$(ApplicationIdentifier)'"
+			 Importance="$(_MessageImportance)" />
+
+		<XmlPoke Condition="Exists('$(_ApplicationManifestPath)')"
+			 XmlInputPath="$(_ApplicationManifestPath)"
+			 Query="//plist/dict/key[text() = 'CFBundleIdentifier']/following-sibling::string[1]"
+			 Value="$(ApplicationIdentifier)" />
+	 </Target>
 </Project>
