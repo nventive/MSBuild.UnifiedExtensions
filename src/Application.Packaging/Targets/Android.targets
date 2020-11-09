@@ -12,14 +12,16 @@
 			  DestinationFolder="$(PackageOutputPath)" />
 	</Target>
 
+	 <!-- _ValidateAndroidPackageProperties fetches the packagd id from the manifest and stores it in a variable used throughout the build -->
+	 <!-- The id must be changed before this happens -->
 	<Target Name="_UpdatePackageId"
-			BeforeTargets="BeforeBuild"
+			BeforeTargets="_ValidateAndroidPackageProperties"
 			Condition="'$(AndroidApplication)' == 'true' and '$(ApplicationIdentifier)' != ''">
 
 		<PropertyGroup>
 			<!-- _AndroidManifestAbs contains the location of the Android manifest -->
 			<!-- Set by Xamarin Android : https://github.com/xamarin/xamarin-android/blob/a2a76c337705b1a24ee45a0fe979d24319e3bee3/src/Xamarin.Android.Build.Tasks/Xamarin.Android.Common.targets#L691 -->
-			<_ApplicationManifestPath>$(_AndroidManifestAbs)</_ApplicationManifestPath>
+			<_ApplicationManifestPath>$(ProjectDir)$(AndroidManifest)</_ApplicationManifestPath>
 		</PropertyGroup>
 
 		<Warning Condition="!Exists('$(_ApplicationManifestPath)')"
