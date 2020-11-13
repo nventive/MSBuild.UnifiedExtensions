@@ -60,13 +60,13 @@
 
 		<!-- We are not relying on MSBuild's XmlPoke as it introduces unwanted changes to the plist, making it invalid -->
 		<_XmlUpdate Condition="Exists('$(_ApplicationManifestPath)')"
-			XmlInputPath="$(_ApplicationManifestPath)"
-			Query="//plist/dict/key[text() = 'CFBundleShortVersionString']/following-sibling::string[1]"
+			XmlFileName="$(_ApplicationManifestPath)"
+			XPath="//plist/dict/key[text() = 'CFBundleShortVersionString']/following-sibling::string[1]"
 			Value="$(ApplicationVersion)" />
 
 		<_XmlUpdate Condition="Exists('$(_ApplicationManifestPath)')"
-			XmlInputPath="$(_ApplicationManifestPath)"
-			Query="//plist/dict/key[text() = 'CFBundleVersion']/following-sibling::string[1]"
+			XmlFileName="$(_ApplicationManifestPath)"
+			XPath="//plist/dict/key[text() = 'CFBundleVersion']/following-sibling::string[1]"
 			Value="$(ApplicationBuildNumber)" />
 	</Target>
 </Project>
