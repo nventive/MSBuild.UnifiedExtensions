@@ -1,6 +1,6 @@
 <Project>
 	<Target Name="_SetApplicationVersion"
-			BeforeTargets="_DetectAppManifest"
+			AfterTargets="_DetectAppManifest"
 			DependsOnTargets="_CalculateApplicationVersion"
 			Condition="'$(BuildingInsideVisualStudio)'=='' and '$(ApplicationVersion)'!=''">
 		<PropertyGroup>
