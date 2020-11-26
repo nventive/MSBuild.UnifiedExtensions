@@ -3,7 +3,12 @@ trigger:
     include:
     - master
     - develop
-
+pr:
+ branches:
+   include:
+   - master
+   - develop
+   
 variables:
   - name: ArtifactName
     value: Packages
@@ -28,7 +33,7 @@ stages:
 
     - task: NuGetToolInstaller@1
       inputs:
-        versionSpec: 5.1.0
+        versionSpec: 5.8.0
 
     - task: NuGetCommand@2
       inputs:
