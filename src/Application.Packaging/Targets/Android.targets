@@ -49,7 +49,6 @@
 		<ItemGroup>
 			<_CsharpFiles Include="..\**\*.cs" />
 			<_XmlFiles Include="..\**\*.xml" />
-			<_JsonFiles Include="..\**\*.json" />
 		</ItemGroup>
 
 		<Message Text="Changing Android package identifier from '$(_CurrentApplicationIdentifier)' to '$(ApplicationIdentifier)'"
@@ -63,12 +62,6 @@
 					Condition="$(_ShouldReplaceApplicationIdentifier)"/>
 
 		<FileUpdate Files="@(_XmlFiles)"
-					Regex="$(_CurrentApplicationIdentifier)"
-					ReplacementText="$(ApplicationIdentifier)"
-					IgnoreCase="True"
-					Condition="$(_ShouldReplaceApplicationIdentifier)"/>
-
-		<FileUpdate Files="@(_JsonFiles)"
 					Regex="$(_CurrentApplicationIdentifier)"
 					ReplacementText="$(ApplicationIdentifier)"
 					IgnoreCase="True"
