@@ -27,6 +27,10 @@
 
 		<!-- Include ReferenceAPI targets for the specified NetStandard target frameworks -->
 		<None Include="Targets\ReferenceAPI.targets" Pack="true" PackagePath="@(_NetStandardTargetFrameworks->'build/%(Identity)/Packaging.targets')" />
+		
+		<!-- Include macOS targets and props for the specified macOS target frameworks -->
+		<None Include="Targets\macOS.props" Pack="true" PackagePath="@(_macOSTargetFrameworks->'build/%(Identity)/Packaging.props')" />
+		<None Include="Targets\macOS.targets" Pack="true" PackagePath="@(_macOSTargetFrameworks->'build/%(Identity)/Packaging.targets')" />
 	</ItemGroup>
 
 	<ItemGroup>

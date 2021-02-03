@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<TargetFrameworks>xamarinios10;monoandroid90;monoandroid10.0;uap10.0.17763;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>xamarinios10;xamarinmac20;monoandroid90;monoandroid10.0;uap10.0.17763;netstandard2.0</TargetFrameworks>
 		<Authors>nventive</Authors>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<Copyright>Copyright ©2020 nventive inc.</Copyright>
@@ -24,6 +24,7 @@
 		<_AllTargetFrameworks Include="$(TargetFrameworks)" />
 		<_AndroidTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(monoandroid[^;]+)'))" />
 		<_IosTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinios[^;]+)'))" />
+		<_macOSTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(xamarinmac[^;]+)'))" />
 		<_UapTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(uap[^;]+)'))" />
 		<_NetStandardTargetFrameworks Include="$([System.Text.RegularExpressions.Regex]::Matches('$(TargetFrameworks)', '(netstandard[^;]+)'))" />
 		<!-- List of platform-specific target sdks. Allows a dynamic inclusion of framework-specific files without having to use the exact version. See example below: -->
