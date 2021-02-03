@@ -1,0 +1,22 @@
+﻿<Project>
+	<Target Name="_Wasm_CopyApplicationPackagesForPublishing"
+			AfterTargets="Build"
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)' != '' and '$(WasmHead)' == 'true'">
+		<ItemGroup>
+			<_WasmFiles Include="$(OutputPath)dist\**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_WasmFiles)"
+			  DestinationFiles="@(_WasmFiles->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+	<Target Name="_Skia_CopyApplicationPackagesForPublishing"
+			AfterTargets="Build"
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)' != '' and '$(UnoRuntimeIdentifier)' == 'Skia' and '$(IsUnoHead)' == 'true'">
+		<ItemGroup>
+			<_SkiaFiles Include="$(OutputPath)**\*.*" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(_SkiaFiles)"
+			  DestinationFiles="@(_SkiaFiles->'$(PackageOutputPath)\%(RecursiveDir)%(Filename)%(Extension)')" />
+	</Target>
+</Project>
