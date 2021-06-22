@@ -15,7 +15,7 @@
 	 <!-- _ValidateAndroidPackageProperties fetches the packagd id from the manifest and stores it in a variable used throughout the build -->
 	 <!-- The id must be changed before this happens -->
 	<Target Name="_UpdatePackageId"
-			BeforeTargets="_ValidateAndroidPackageProperties"
+			BeforeTargets="_ValidateAndroidPackageProperties;_GetAndroidPackageName"
 			Condition="'$(AndroidApplication)' == 'true' and '$(ApplicationIdentifier)' != ''">
 
 		<PropertyGroup>
