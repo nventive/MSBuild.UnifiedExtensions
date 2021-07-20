@@ -1,0 +1,12 @@
+﻿<Project>
+	<Target Name="_CopyApplicationPackagesForPublishing"
+			AfterTargets="Build"
+			Condition="'$(BuildingInsideVisualStudio)' == '' and '$(PackageOutputPath)'!=''">
+		<ItemGroup>
+			<_macOSFiles Include="$(OutputPath)**\*.pkg" />
+		</ItemGroup>
+
+		<Copy SourceFiles="$(_macOSFiles)"
+			  DestinationFolder="$(PackageOutputPath)\" />
+	</Target>
+</Project>
