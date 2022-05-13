@@ -26,11 +26,9 @@ pull_request_rules:
 
     # Note: mergify cannot break branch protection rules
     actions:
-      merge:
+      queue:
         method: merge
-        # https://doc.mergify.io/strict-workflow.html
-        # https://doc.mergify.io/actions.html#label
-        strict: smart
+        name: default
 
   - name: automatic merge for allcontributors pull requests
     conditions:
