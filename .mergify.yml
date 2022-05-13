@@ -1,3 +1,9 @@
+queue_rules:
+  - name: default
+    conditions:
+      # Conditions to get out of the queue (= merged)
+      - check-success=nventive.Nimue
+
 pull_request_rules:
 
   - name: automatic strict merge when CI passes, has 2 reviews, no requests for change and is labeled 'ready-to-merge' unless labelled 'do-not-merge/breaking-change' or 'do-not-merge/work-in-progress'
