@@ -26,14 +26,20 @@ stages:
       value: $(Build.ArtifactStagingDirectory)
 
     steps:
-    - task: GitVersion@5
+    - task: gitversion/setup@0
       inputs:
-        runtime: 'core'
+        versionSpec: '5.X'
+      displayName: 'Install GitVersion'
+
+    - task: gitversion/execute@0
+      inputs:
+        useConfigFile: true
         configFilePath: 'gitversion.yml'
+      displayName: 'Calculate version'
 
     - task: NuGetToolInstaller@1
       inputs:
-        versionSpec: 5.8.0
+        versionSpec: 6.1.0
 
     - task: NuGetCommand@2
       inputs:
@@ -71,7 +77,7 @@ stages:
 
     - task: NuGetToolInstaller@1
       inputs:
-        versionSpec: 5.4.0
+        versionSpec: 6.1.0
     
     - task: NuGetCommand@2
       inputs:
